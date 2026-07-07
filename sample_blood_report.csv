@@ -1,0 +1,9 @@
+Parameter,Value,Unit,Normal_Min,Normal_Max,Status
+Hemoglobin,11.2,g/dL,12.0,17.5,Low
+Glucose,95.0,mg/dL,70.0,100.0,Normal
+Cholesterol,215.0,mg/dL,0.0,200.0,High
+Vitamin D,14.5,ng/mL,20.0,50.0,Low
+Iron,55.0,µg/dL,60.0,170.0,Low
+Calcium,9.2,mg/dL,8.5,10.5,Normal
+Vitamin B12,180.0,pg/mL,200.0,900.0,Low
+Triglycerides,165.0,mg/dL,0.0,150.0,High
