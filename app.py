@@ -102,7 +102,7 @@ def inject_css():
 
     /* Section headers */
     .section-header {
-        font-size: 20p
+        font-size: 20px;
         font-weight: 700;
         color: #1a5276;
         border-bottom: 2px solid #148f77;
@@ -136,7 +136,7 @@ def page_login():
             with st.form("login_form"):
                 username = st.text_input("Username", placeholder="Enter your username")
                 password = st.text_input("Password", type="password", placeholder="Enter your password")
-                submitted = st.form_submit_button("Login", use_container_width=True, type="primary")
+                submitted = st.form_submit_button("Login", use_container_width=False, type="primary")
 
             if submitted:
                 user = login_user(username, password)
@@ -161,7 +161,7 @@ def page_login():
                     conf_pass = st.text_input("Confirm Password*", type="password")
                     gender    = st.selectbox("Gender", ["Male", "Female", "Other"])
                 email     = st.text_input("Email (optional)")
-                reg_btn   = st.form_submit_button("Create Account", use_container_width=True, type="primary")
+                reg_btn   = st.form_submit_button("Create Account", use_container_width=False, type="primary")
 
             if reg_btn:
                 if not new_user or not new_pass:
@@ -207,13 +207,13 @@ def render_sidebar():
         }
 
         for label, page in pages.items():
-            if st.button(label, use_container_width=True,
+            if st.button(label, use_container_width=False,
                          type="primary" if st.session_state.page == page else "secondary"):
                 st.session_state.page = page
                 st.rerun()
 
         st.divider()
-        if st.button("🚪 Logout", use_container_width=True):
+        if st.button("🚪 Logout", use_container_width=False):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
@@ -266,7 +266,7 @@ def page_dashboard():
         df = pd.DataFrame(preds)[["predicted_at", "risk_level", "health_score", "model_version"]]
         df.columns = ["Date", "Risk Level", "Health Score", "Model"]
         df["Date"] = pd.to_datetime(df["Date"]).dt.strftime("%d %b %Y %H:%M")
-        st.dataframe(df.head(5), use_container_width=True)
+        st.dataframe(df.head(5), use_container_width=False)
 
 
 def _render_parameter_cards(results):
@@ -355,7 +355,7 @@ def page_upload():
                 {"Parameter": PARAMETER_LABELS.get(k, k), "Value": v}
                 for k, v in extracted.items()
             ])
-            st.dataframe(df_preview, use_container_width=True)
+            st.dataframe(df_preview, use_container_width=False)
 
             # Allow manual correction
             st.subheader("Review & Correct (optional)")
@@ -371,7 +371,7 @@ def page_upload():
                         step=0.1,
                     )
 
-            if st.button("🔬 Analyse Report", type="primary", use_container_width=True):
+            if st.button("🔬 Analyse Report", type="primary", use_container_width=False):
                 _run_analysis(corrected, source_type="ocr")
 
         else:
@@ -404,7 +404,7 @@ def page_manual():
             vitamin_b12   = st.number_input("Vitamin B12 (pg/mL)",        0.0, 2000.0,450.0,10.0)
             triglycerides = st.number_input("Triglycerides (mg/dL)",      0.0, 1000.0,140.0,1.0)
 
-        submitted = st.form_submit_button("🔬 Analyse", type="primary", use_container_width=True)
+        submitted = st.form_submit_button("🔬 Analyse", type="primary", use_container_width=False)
 
     if submitted:
         values = {
@@ -487,7 +487,7 @@ def page_analysis():
         number={"suffix": "/100"},
     ))
     fig.update_layout(height=250, margin=dict(t=40, b=0, l=20, r=20))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
 
     risk_emoji = {"Low": "🟢", "Medium": "🟡", "High": "🔴"}.get(risk, "⚪")
     st.markdown(f"### Risk Level: {risk_emoji} **{risk}**")
@@ -576,7 +576,7 @@ def _render_radar_chart(results):
         showlegend=True,
         height=400,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -626,7 +626,7 @@ def page_prediction():
     )
     fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
     fig.update_layout(yaxis_title="Probability (%)", yaxis_range=[0, 110], showlegend=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
 
     # Feature importance
     st.subheader("Feature Importance (Model Explainability)")
@@ -639,7 +639,7 @@ def page_prediction():
             color_continuous_scale="Teal",
         )
         fig2.update_layout(yaxis={"categoryorder": "total ascending"})
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, use_container_width=False)
     except Exception as e:
         st.info(f"Feature importance unavailable: {e}")
 
@@ -672,7 +672,7 @@ def page_history():
             labels={"predicted_at": "Date", "health_score": "Health Score"},
         )
         fig.update_layout(yaxis_range=[0, 105])
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
 
     # Reports table
     st.subheader("All Blood Reports")
@@ -681,7 +681,7 @@ def page_history():
     df = pd.DataFrame(reports)[display_cols]
     df.columns = ["Date", "Hb", "Glucose", "Chol", "Vit D", "Iron", "Ca", "B12", "TG"]
     df["Date"] = pd.to_datetime(df["Date"]).dt.strftime("%d %b %Y %H:%M")
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, use_container_width=False)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -703,7 +703,7 @@ def page_download():
 
     st.info("Your personalised PDF report will include blood values, deficiency status, nutrition recommendations, and health tips.")
 
-    if st.button("📥 Generate & Download PDF Report", type="primary", use_container_width=True):
+    if st.button("📥 Generate & Download PDF Report", type="primary", use_container_width=False):
         with st.spinner("Generating PDF..."):
             try:
                 path = generate_pdf_report(
@@ -720,7 +720,7 @@ def page_download():
                     data=pdf_bytes,
                     file_name=f"nutrition_report_{user['username']}_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf",
                     mime="application/pdf",
-                    use_container_width=True,
+                    use_container_width=False,
                 )
                 st.success("PDF generated successfully!")
             except Exception as e:
